@@ -2,7 +2,6 @@
 #include "std_msgs/String.h"
 
 #include <limits>
-#include <sstream>
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -60,11 +59,9 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
     std_msgs::String msg;
-
-    std::stringstream ss;
-    ss << "Do you think I talk too much? [" << count << "/" << std::numeric_limits<int>::max() << "]";
-    msg.data = ss.str();
-
+    msg.data = "Do you think I talk too much? ["
+               + std::to_string(count) + "/"
+               + std::to_string(std::numeric_limits<int>::max()) + "]";
     ROS_INFO_STREAM(msg.data);
 
     /**
