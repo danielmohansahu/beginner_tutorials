@@ -1,6 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 
+#include <limits>
 #include <sstream>
 
 /**
@@ -61,10 +62,10 @@ int main(int argc, char **argv)
     std_msgs::String msg;
 
     std::stringstream ss;
-    ss << "hello world " << count;
+    ss << "Do you think I talk too much? [" << count << "/" << std::numeric_limits<int>::max() << "]";
     msg.data = ss.str();
 
-    ROS_INFO("%s", msg.data.c_str());
+    ROS_INFO_STREAM(msg.data);
 
     /**
      * The publish() function is how you send messages. The parameter
