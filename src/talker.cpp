@@ -90,7 +90,7 @@ int main(int argc, char **argv) {
     msg.data = "Do you think I talk too much? ["
                + std::to_string(count) + "/"
                + std::to_string(std::numeric_limits<int>::max()) + "]";
-    ROS_INFO_STREAM(msg.data);
+    ROS_DEBUG_STREAM_NAMED("talker", msg.data);
 
     /**
      * The publish() function is how you send messages. The parameter
@@ -112,7 +112,7 @@ int main(int argc, char **argv) {
     }
   }
 
-  ROS_INFO("Talker node initialized.");
+  ROS_INFO_NAMED("talker", "Talker node initialized.");
 
   return 0;
 }
