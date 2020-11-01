@@ -29,28 +29,16 @@ catkin_make
 
 ## Run Instructions
 
-To run the listener and talker several terminals are required (no launch file is provided):
-
-```bash
-# terminal #1
-roscore
-
-# terminal #2
-source ~/catkin_ws/devel/setup.bash
-rosrun beginner_tutorials listener
-
-# terminal #3
-source ~/catkin_ws/devel/setup.bash
-rosrun beginner_tutorials talker
-```
-
-Alternatively, if you don't mind some mixing the nodes' output, the following will run everything in one terminal.
+To run the listener and talker there is an example launch file.
 
 ```bash
 source ~/catkin_ws/devel/setup.bash
-roscore &
-rosrun beginner_tutorials listener &
-rosrun beginner_tutorials talker
+roslaunch beginner_tutorials conversation.launch
 ```
 
+Output should appear showing the listener is receiving messages. If you'd like to reset the message counter, call the following service:
+
+```bash
+rosservice call /conversation/reset_count "{}"
+```
 
