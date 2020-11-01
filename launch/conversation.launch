@@ -1,0 +1,19 @@
+<launch>
+  <arg name="topic" default="chatter" doc="The core topic used to communicate." />
+  <arg name="namespace" default="conversation" doc="The namespace to launch nodes under" />
+
+  <group ns="$(arg namespace)" >
+
+    <!-- listener node -->
+    <node name="listener" pkg="beginner_tutorials" type="listener" output="screen">
+      <param name="topic" value="$(arg topic)" />
+    </node>
+
+    <!-- talker node -->
+    <node name="talker" pkg="beginner_tutorials" type="talker" output="screen">
+      <param name="topic" value="$(arg topic)" />
+    </node>
+
+  </group>
+
+</launch>
