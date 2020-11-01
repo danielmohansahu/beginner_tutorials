@@ -52,15 +52,14 @@ int main(int argc, char **argv) {
    */
   ros::ServiceServer service = n.advertiseService(
     "reset_count",
-    boost::function<bool(std_srvs::Empty::Request&, std_srvs::Empty::Response&)>(
-      [&count](const auto&, const auto&)
-      {
-        ROS_INFO_STREAM_NAMED("talker", "Resetting count from " << count << " to 0.");
+    boost::function<bool(std_srvs::Empty::Request&,
+                         std_srvs::Empty::Response&)>(
+      [&count](const auto&, const auto&) {
+        ROS_INFO_STREAM_NAMED("talker", "Resetting count from "
+                                        << count << " to 0.");
         count = 0;
         return true;
-      }
-    )
-  );
+      }));
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -115,7 +114,9 @@ int main(int argc, char **argv) {
 
     // make sure we haven't been running for too long
     if (count == std::numeric_limits<int>::max()) {
-      ROS_FATAL_NAMED("talker", "Runtime execution went on too long; about to hit integer overflow.");
+      ROS_FATAL_NAMED(
+        "talker",
+        "Runtime execution went on too long; about to hit integer overflow.");
       return 1;
     }
   }
