@@ -36,6 +36,14 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
+  ros::NodeHandle pnh("~");
+
+  /**
+   * Get our topic name.
+   */
+  std::string topic {"listener_topic"};
+  pnh.param("topic", topic, topic);
+  ROS_INFO_STREAM_NAMED("listener", "Listening to topic: " << topic);
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
@@ -52,7 +60,7 @@ int main(int argc, char **argv) {
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
-  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe(topic, 1000, chatterCallback);
 
   ROS_INFO_NAMED("listener", "Listener node initialized.");
 

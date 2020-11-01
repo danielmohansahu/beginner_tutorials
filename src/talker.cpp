@@ -33,6 +33,14 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
+  ros::NodeHandle pnh("~");
+
+  /**
+   * Get our topic name.
+   */
+  std::string topic {"talker_topic"};
+  pnh.param("topic", topic, topic);
+  ROS_INFO_STREAM_NAMED("talker", "Publishing on topic: " << topic);
 
   /**
    * Initialize our count of how many messages we've sent.
@@ -71,7 +79,7 @@ int main(int argc, char **argv) {
    * than we can send them, the number here specifies how many messages to
    * buffer up before throwing some away.
    */
-  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>(topic, 1000);
   ROS_DEBUG_NAMED("talker", "Publisher advertised.");
 
   ros::Rate loop_rate(10);
