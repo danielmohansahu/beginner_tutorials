@@ -4,10 +4,12 @@
  * @copyright [2020] Daniel M. Sahu [MIT]
  */
 
+#include <atomic>
 #include <limits>
 
 #include "ros/ros.h"
 #include "std_msgs/String.h"
+#include "std_srvs/Empty.h"
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -31,6 +33,25 @@ int main(int argc, char **argv) {
    * NodeHandle destructed will close down the node.
    */
   ros::NodeHandle n;
+
+  /**
+   * Initialize our count of how many messages we've sent.
+   */
+  std::atomic<int> count {0};
+
+  /**
+   * Define a service that allows us to reset our message count.
+   */
+  ros::ServiceServer service = n.advertiseService(
+    "reset_count",
+    boost::function<bool(std_srvs::Empty::Request&, std_srvs::Empty::Response&)>(
+      [&count](const auto&, const auto&)
+      {
+        count = 0;
+        return true;
+      }
+    )
+  );
 
   /**
    * The advertise() function is how you tell ROS that you want to
@@ -57,7 +78,6 @@ int main(int argc, char **argv) {
    * A count of how many messages we have sent. This is used to create
    * a unique string for each message.
    */
-  int count = 0;
   while (ros::ok()) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
