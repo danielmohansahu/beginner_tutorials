@@ -47,6 +47,7 @@ int main(int argc, char **argv) {
     boost::function<bool(std_srvs::Empty::Request&, std_srvs::Empty::Response&)>(
       [&count](const auto&, const auto&)
       {
+        ROS_INFO_STREAM_NAMED("talker", "Resetting count from " << count << " to 0.");
         count = 0;
         return true;
       }
@@ -71,6 +72,7 @@ int main(int argc, char **argv) {
    * buffer up before throwing some away.
    */
   ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
+  ROS_DEBUG_NAMED("talker", "Publisher advertised.");
 
   ros::Rate loop_rate(10);
 
@@ -82,6 +84,8 @@ int main(int argc, char **argv) {
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
+    ROS_DEBUG_THROTTLE_NAMED(1.0, "talker", "Executing callback loop.");
+
     std_msgs::String msg;
     msg.data = "Do you think I talk too much? ["
                + std::to_string(count) + "/"
@@ -100,8 +104,15 @@ int main(int argc, char **argv) {
 
     loop_rate.sleep();
     ++count;
+
+    // make sure we haven't been running for too long
+    if (count == std::numeric_limits<int>::max()) {
+      ROS_FATAL_NAMED("talker", "Runtime execution went on too long; about to hit integer overflow.");
+      return 1;
+    }
   }
 
+  ROS_INFO("Talker node initialized.");
 
   return 0;
 }
