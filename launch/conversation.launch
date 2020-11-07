@@ -1,6 +1,7 @@
 <launch>
   <arg name="topic" default="chatter" doc="The core topic used to communicate." />
   <arg name="namespace" default="conversation" doc="The namespace to launch nodes under" />
+  <arg name="bag" default="True" doc="Bag all topics during this launch file's execution" />
 
   <group ns="$(arg namespace)" >
 
@@ -15,5 +16,7 @@
     </node>
 
   </group>
+
+  <node if="$(arg bag)" pkg="rosbag" type="record" name="bagging" args="-a" output="screen"/>
 
 </launch>
