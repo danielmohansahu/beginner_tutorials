@@ -7,9 +7,12 @@
 #include <atomic>
 #include <limits>
 
-#include "ros/ros.h"
-#include "std_msgs/String.h"
-#include "std_srvs/Empty.h"
+#include <ros/ros.h>
+#include <tf2_ros/static_transform_broadcaster.h>
+
+#include <std_msgs/String.h>
+#include <std_srvs/Empty.h>
+#include <geometry_msgs/TransformStamped.h>
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -61,6 +64,19 @@ int main(int argc, char **argv) {
         return true;
       }));
 
+  /**
+   * Advertise a static TF transform.
+   */
+  tf2_ros::StaticTransformBroadcaster static_broadcaster;
+  geometry_msgs::TransformStamped transform;
+  transform.header.stamp = ros::Time::now();
+  transform.header.frame_id = "world";
+  transform.child_frame_id = "talk";
+  transform.transform.translation.x = 1.0;
+  transform.transform.rotation.w = 1.0;
+
+  static_broadcaster.sendTransform(transform);
+  
   /**
    * The advertise() function is how you tell ROS that you want to
    * publish on a given topic name. This invokes a call to the ROS
