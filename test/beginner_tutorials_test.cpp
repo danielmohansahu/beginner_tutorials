@@ -1,4 +1,9 @@
-#include <atomic>
+/* @file beginner_tutorials.cpp
+ * @brief Test suite for the Beginner Tutorials Package
+ *
+ * @copyright [2020] Daniel M. Sahu [MIT]
+ */
+
 #include <ros/ros.h>
 #include <gtest/gtest.h>
 
@@ -7,6 +12,8 @@
 
 #include <std_msgs/String.h>
 
+#include <atomic>
+
 // Test that our transform broadcaster is working as expected.
 TEST(BeginnerTutorials, TransformBroadcaster) {
   // instantiate tf listener / buffer
@@ -14,7 +21,8 @@ TEST(BeginnerTutorials, TransformBroadcaster) {
   tf2_ros::TransformListener tfl(tfb);
 
   // check for expected transform
-  ASSERT_TRUE(tfb.canTransform("world", "talk", ros::Time(0.0), ros::Duration(1.0)));
+  ASSERT_TRUE(tfb.canTransform("world", "talk", ros::Time(0.0),
+              ros::Duration(1.0)));
 
   // actually get the transform
   auto transform = tfb.lookupTransform("world", "talk", ros::Time(0.0));

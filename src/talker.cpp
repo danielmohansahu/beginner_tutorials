@@ -4,15 +4,15 @@
  * @copyright [2020] Daniel M. Sahu [MIT]
  */
 
-#include <atomic>
-#include <limits>
-
 #include <ros/ros.h>
 #include <tf2_ros/static_transform_broadcaster.h>
 
 #include <std_msgs/String.h>
 #include <std_srvs/Empty.h>
 #include <geometry_msgs/TransformStamped.h>
+
+#include <atomic>
+#include <limits>
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -76,7 +76,7 @@ int main(int argc, char **argv) {
   transform.transform.rotation.w = 1.0;
 
   static_broadcaster.sendTransform(transform);
-  
+
   /**
    * The advertise() function is how you tell ROS that you want to
    * publish on a given topic name. This invokes a call to the ROS
