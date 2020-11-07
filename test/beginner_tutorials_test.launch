@@ -1,0 +1,3 @@
+<launch>
+  <test pkg="beginner_tutorials" test-name="beginner_tutorials_test" type="beginner_tutorials_test" />
+</launch>

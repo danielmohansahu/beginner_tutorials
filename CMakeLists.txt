@@ -33,3 +33,25 @@ target_link_libraries(talker ${catkin_LIBRARIES})
 add_executable(listener src/listener.cpp)
 target_link_libraries(listener ${catkin_LIBRARIES})
 
+#############
+## Testing ##
+#############
+
+if(CATKIN_ENABLE_TESTING)
+  find_package(rostest REQUIRED)
+
+  add_rostest_gtest(
+    ${PROJECT_NAME}_test
+    test/${PROJECT_NAME}_test.launch
+    test/${PROJECT_NAME}_test.cpp
+  )
+  target_link_libraries(
+    ${PROJECT_NAME}_test
+    ${catkin_LIBRARIES}
+  )
+  add_dependencies(
+    ${PROJECT_NAME}_test
+    ${catkin_EXPORTED_TARGETS}
+  )
+endif()
+
